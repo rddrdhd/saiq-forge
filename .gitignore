@@ -1,0 +1,5 @@
+*.sif
+my_* 
+*__pycache__*
+outputs
+.pytest_cache

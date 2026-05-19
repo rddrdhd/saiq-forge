@@ -1,0 +1,26 @@
+# SAIQ Forge — Sprint 1 environment for LUMI (conda-forge only)
+# NOTE: No 'defaults' channel — not allowed on LUMI.
+# NOTE: No Anaconda packages — academic license restriction.
+name: netad
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - polars=1.3
+  - pyarrow=17
+  - pandas=2.2
+  - numpy=1.26
+  - scikit-learn=1.5
+  - scipy=1.13
+  - matplotlib=3.9
+  - seaborn=0.13
+  - rich=13.7
+  - pyyaml=6.0
+  - pytest=8.3
+  - dask=2024.8
+  - distributed=2024.8
+  - dask-jobqueue=0.8
+  - pip
+  - pip:
+    - umap-learn==0.5.6
+    - plotly==5.23
