@@ -1,0 +1,58 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# saiq-forge — default configuration
+# Edit the values marked with  ← EDIT  before running on LUMI.
+# All other values are safe defaults for Sprint 1.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── I/O ──────────────────────────────────────────────────────────────────────
+input:
+  # Glob pattern relative to project root.
+  # I created symlink: ln -sf /scratch/path/to/data/ data
+  path: "data/*.parquet"
+  format: "parquet"                    # "parquet" | "csv"
+  csv_separator: "\t"                  # only used when format=csv
+
+output:
+  base_dir: "outputs"                  # ← EDIT if you want a different output root
+
+# ── Time / batching ──────────────────────────────────────────────────────────
+batching:
+  window_sec: 300                      # size of each time window (seconds)
+  overlap_fraction: 0.5                # fraction of window_sec used as overlap
+  min_flows_per_batch: 50              # skip windows with fewer flows
+  time_unit: "ns"                      # TIME column unit in raw data: ns | us | ms | s
+
+# ── Schema ───────────────────────────────────────────────────────────────────
+schema:
+  time_col:         "TIME"
+  duration_col:     "DURATION"
+  src_ip_col:       "SRC_IP"
+  dst_ip_col:       "DST_IP"
+  src_port_col:     "SRC_PORT"
+  dst_port_col:     "DST_PORT"
+  protocol_col:     "PROTOCOL"
+  application_col:  "APPLICATION"
+  src_packets_col:  "SRC_PACKETS"
+  dst_packets_col:  "DST_PACKETS"
+  src_bytes_col:    "SRC_BYTES"
+  dst_bytes_col:    "DST_BYTES"
+  duration_unit:    "us"               # DURATION unit in raw data: us | ms | s
+
+# ── Parallelism ───────────────────────────────────────────────────────────────
+parallel:
+  mode: "dask_local"                   # "single" | "dask_local" | "slurm"
+  n_workers: null                      # null = auto (os.cpu_count())
+  slurm:
+    cores: 16
+    memory: "32GB"
+    walltime: "02:00:00"
+    queue: "small"                     # LUMI-C partition
+    account: null                      # TODO update to your project_XXXXXXXX
+
+# ── Active detection module ───────────────────────────────────────────────────
+module: "statistical"                  # "statistical" | "autoencoder" | "quantum_svm"
+
+# ── Logging ──────────────────────────────────────────────────────────────────
+logging:
+  level: "INFO"
+  rich_tracebacks: true

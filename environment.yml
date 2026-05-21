@@ -1,7 +1,7 @@
 # SAIQ Forge — Sprint 1 environment for LUMI (conda-forge only)
 # NOTE: No 'defaults' channel — not allowed on LUMI.
 # NOTE: No Anaconda packages — academic license restriction.
-name: netad
+name: saiq-forge
 channels:
   - conda-forge
 dependencies:
