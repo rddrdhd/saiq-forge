@@ -21,8 +21,8 @@ def pprint(text):
 if __name__ == "__main__":
     cfg = load_config("config/my_default.yml")
     # pprint("Loading the whole file")
-    # df_geo = load_sharded_parquet(cfg["input"]["path_geo"], rank, world_size)
-    # df_data = load_sharded_parquet(cfg["input"]["path_data"], rank, world_size)
+    # df_geo = load_sharded_parquet(cfg["input"]["file_geo"], rank, world_size)
+    # df_data = load_sharded_parquet(cfg["input"]["file_data"], rank, world_size)
     # pprint(f"Checking df_geo: {df_geo.shape}")
     # if not df_geo.empty:
     #     pprint(f"{df_geo.head(2)}")
@@ -36,10 +36,10 @@ if __name__ == "__main__":
 
     GROUPS_PER_BATCH = 2 # set 1 for small batches, 5 for bigger - TODO tunable parameter
     geo_generator = batch_sharded_parquet(
-        cfg["input"]["path_geo"], rank, world_size, groups_per_batch=GROUPS_PER_BATCH
+        cfg["input"]["file_geo"], rank, world_size, groups_per_batch=GROUPS_PER_BATCH
     )
     # data_generator = batch_sharded_parquet(
-    #     cfg["input"]["path_data"], rank, world_size, groups_per_batch=GROUPS_PER_BATCH
+    #     cfg["input"]["file_data"], rank, world_size, groups_per_batch=GROUPS_PER_BATCH
     # )
 
     pprint("Shard generator loaded")
