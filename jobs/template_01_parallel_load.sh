@@ -43,7 +43,7 @@ echo "--- Running pytest (output capture disabled with -s) ---"
 singularity exec \
     --bind $WORKDIR \
     $SIF \
-    python -m pytest tests/test_parallel_load.py -v -s
+    python tests/test_parallel_load.py -v
 
 EXIT_CODE=$?
 

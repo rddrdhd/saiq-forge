@@ -6,6 +6,7 @@ Statistical/AI/Quantum methods for network anomaly detection in HPC environment.
 In development as a part of my [PhD thesis](https://www.overleaf.com/project/69b27d1754e1e94ecea885e8).
 
 ## How to
+First you need to build the container using build_container_lumi.yml
 0. copy the config/default_template.yml to config/my_default.yml, and update values.
 1. copy the template from "jobs" directory and edit the "TODO"s
 2. submit the edited script by calling "sbatch my_edited_script.sh"

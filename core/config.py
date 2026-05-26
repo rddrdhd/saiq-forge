@@ -62,36 +62,18 @@ def load_config(override_path: str | Path | None = None) -> dict[str, Any]:
     """
     default_path = _PROJECT_ROOT / "config" / "default.yml"
 
-    if not default_path.exists():
+    if not default_path.exists() and override_path is None:
         raise FileNotFoundError(
             f"Default config not found at {default_path}\n"
             "Make sure you run from inside the saiq-forge project directory."
         )
-
-    with open(default_path) as f:
-        cfg = yaml.safe_load(f) or {}
-
-    if override_path is not None:
-        override_path = Path(override_path)
-        if not override_path.is_absolute():
-            override_path = _PROJECT_ROOT / override_path
+    if override_path is None:
+        with open(default_path) as f:
+            cfg = yaml.safe_load(f) or {}
+    else: 
         with open(override_path) as f:
-            overrides = yaml.safe_load(f) or {}
-        cfg = _deep_merge(cfg, overrides)
-
-    # Resolve the input path relative to project root if it's not absolute
-    raw_input_path = cfg.get("input", {}).get("path", "")
-    if raw_input_path and not Path(raw_input_path).is_absolute():
-        cfg["input"]["_resolved_path"] = str(_PROJECT_ROOT / raw_input_path)
-    else:
-        cfg["input"]["_resolved_path"] = raw_input_path
-
-    # Resolve output dir similarly
-    raw_out = cfg.get("output", {}).get("base_dir", "outputs")
-    if not Path(raw_out).is_absolute():
-        cfg["output"]["_resolved_base_dir"] = str(_PROJECT_ROOT / raw_out)
-    else:
-        cfg["output"]["_resolved_base_dir"] = raw_out
+            cfg = yaml.safe_load(f) or {}
+    
 
     return cfg
 
