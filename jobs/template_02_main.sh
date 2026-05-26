@@ -1,11 +1,12 @@
 #!/bin/bash -l
 #SBATCH --job-name=saiq_main
 #SBATCH --account=project_XXXXX                     
-#SBATCH --partition=debug
+#SBATCH --partition=standard-g
 #SBATCH --exclusive
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --ntasks-per-node=8                             # Ready for GPU computing
-#SBATCH --cpus-per-task=16
+#SBATCH --gpus-per-node 8
+#SBATCH --cpus-per-task 7 
 #SBATCH --mem=32G
 #SBATCH --time=00:15:00                                  # debug partition max is 30 min
 #SBATCH --output=/path/to/your/saiq-forge/outputs/logs/main_%j.out # TODO update
