@@ -42,4 +42,4 @@ srun sh scripts/run_main.sh --path_output="$LOG_DIR" --path_workdir="$WORKDIR" -
 # ── Move output ─────────────────────────────────────────────────────────────────────
 mv ~/main_$SLURM_JOB_ID.out $LOG_DIR/ # TODO update
 mv ~/main_$SLURM_JOB_ID.err $LOG_DIR/ # TODO update
-# this is moving the logs from tmp dir to your log dir. Set the tmp dir to anywhere.
+# this is moving the logs from tmp dir to your log dir. Set the tmp dir to anywhere, just the same one as in the #SBATCH attrs.

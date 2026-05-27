@@ -1,7 +1,9 @@
 import pyarrow.parquet as pq
 import pandas as pd
 from typing import Generator # for batch shard
-
+def load_full_parquet(path: str):
+    parquet_file = pd.read_parquet(path)
+    return parquet_file
 def load_sharded_parquet(path: str, rank: int, world_size: int) -> pd.DataFrame:
     # load metadata
     parquet_file = pq.ParquetFile(path)
