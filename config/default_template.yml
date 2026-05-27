@@ -1,4 +1,9 @@
+workdir: "/path/to/saiq-forge"
+datadir: "/path/to/data"
+logsdir: "/path/to/outputs/logs"
 input:
-  # Absolute path for the container
-  path_data: "/data/my-classification.parquet"
-  path_geo: "/data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ISP-DOMAIN.parquet"
+  file_data: "data/my_file.parquet"
+  file_geo: "data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ISP-DOMAIN.parquet"
+nn:
+  batch_size: 256
+  
