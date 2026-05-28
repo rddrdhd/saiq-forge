@@ -29,16 +29,19 @@ if __name__ == "__main__":
     dist.barrier()
     dataset = load_dataset("parquet", data_files=cfg["input"]["file_data"])["train"]
     sharded_dataset = dataset.shard(num_shards=world_size, index=rank)
-    sharded_dataset = dataset.shard(num_shards=world_size, index=rank)
     print(f"\n--- [Rank {rank}/{world_size}] Total rows assigned: {len(sharded_dataset)} ---")
     dataloader = DataLoader(sharded_dataset, batch_size=cfg["nn"]["batch_size"])
-    for batch_idx, batch in enumerate(dataloader):
-        #returns dictionaries of tensors
-        durations = batch["DURATION"]
-        times = batch["TIME"]
+    
+    for batch_idx, batch in enumerate(dataloader): # returns dictionaries of tensors
+        # print("\n--- Raw Data Dictionary ---", flush=True)
+        # pprint(str(batch))
 
-        if rank==0:
-            pprint(f"Batch {batch_idx} | Durations: {durations.tolist()} | Times: {times.tolist()}")
+        for key, value in batch.items():
+                if hasattr(value, "shape"):
+                    print(f"Key: {key:<15} | Shape: {str(list(value.shape)):<12} | Type: {value.dtype}", flush=True)
+                else:
+                    print(f"Key: {key:<15} | Type: {type(value).__name__:<12} | Value: {value}", flush=True)
 
+        
     # Clean up the distributed environment
     dist.destroy_process_group()
