@@ -4,7 +4,7 @@ logsdir: "/path/to/outputs/logs"
 input:
   file_data: "data/my_parquet_file.parquet"
   file_geo: "data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ISP-DOMAIN.parquet"
-nn:
-  batch_size: 256
+nn: # for deep learining (main)
+  batch_size: 256 
 output:
-  file_baseline: "data/baseline_stats_for_my_parquet_file.json"
+  file_baseline: "data/baseline_stats_for_my_parquet_file.json" # for per-file data profiling

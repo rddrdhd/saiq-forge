@@ -13,7 +13,7 @@
 #SBATCH --error=~/main_%j.err # TODO update
 
 # ── Load data from config  ─────────────────────────────────────────────────────────────────────
-CONFIG_PATH="config/my_default.yml"
+CONFIG_PATH="config/default.yml"
 eval $(python3 -c "
 import yaml
 with open('$CONFIG_PATH') as f:
