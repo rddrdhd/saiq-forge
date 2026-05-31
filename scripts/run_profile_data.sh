@@ -24,7 +24,7 @@ done
 # ── Info header ───────────────────────────────────────────────────────────────
 
 echo "============================================================"
-echo "  saiq-forge — main"
+echo "  saiq-forge — profiling data"
 echo "============================================================"
 echo "Job ID    : $SLURM_JOB_ID"
 echo "Node      : $(hostname)"

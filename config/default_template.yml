@@ -4,7 +4,21 @@ logsdir: "/path/to/outputs/logs"
 input:
   file_data: "data/my_parquet_file.parquet"
   file_geo: "data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ISP-DOMAIN.parquet"
-nn: # for deep learining (main)
-  batch_size: 256 
 output:
   file_baseline: "data/baseline_stats_for_my_parquet_file.json" # for per-file data profiling
+nn:
+  type: "autoencoder"
+  batch_size: 256
+  features:
+    # --- Original Data (Scaled safely) ---
+    use_raw_duration: true
+    use_raw_src_bytes: true
+    use_raw_dst_bytes: true
+    use_raw_src_packets: true
+    use_raw_dst_packets: true
+    # --- Computed / Robust Data ---
+    use_robust_duration: true
+    use_robust_src_bytes: true
+    use_robust_dst_bytes: true
+    use_rare_src_ip: true
+    use_protocol_encoding: true

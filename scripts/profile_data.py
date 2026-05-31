@@ -207,4 +207,5 @@ def generate_baseline(parquet_path, output_json_path):
 
 if __name__ == "__main__":
     cfg = load_config("config/default.yml")
+    print(f'Profiling data from {cfg["input"]["file_data"]} to { cfg["output"]["file_baseline"]}')
     generate_baseline(cfg["input"]["file_data"], cfg["output"]["file_baseline"])
