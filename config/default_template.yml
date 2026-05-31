@@ -9,6 +9,11 @@ output:
 nn:
   type: "autoencoder"
   batch_size: 256
+  epochs: 5
+  learning_rate: 0.001
+  autoencoder:
+    encoder_hidden_dims: [32, 16] 
+    latent_dim: 8                 
   features:
     # --- Original Data (Scaled safely) ---
     use_raw_duration: true

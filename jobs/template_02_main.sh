@@ -3,8 +3,8 @@
 #SBATCH --account=project_XXXXX                     
 #SBATCH --partition=dev-g
 #SBATCH --exclusive
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=8                             # Ready for GPU computing
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8                             # Ready for GPU computing, but use just defaults for smaller data by removing the =8 lines
 #SBATCH --gpus-per-node=8
 #SBATCH --cpus-per-task=7 
 #SBATCH --mem=32G

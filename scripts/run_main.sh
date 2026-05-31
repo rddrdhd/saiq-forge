@@ -48,6 +48,7 @@ echo "CPUs      : $SLURM_CPUS_PER_TASK"
 echo "Date      : $(date)"
 echo "Workdir   : $PATH_WORKDIR"
 echo "Datadir   : $PATH_DATADIR"
+echo "Log dir   : $PATH_OUTPUT"
 echo "============================================================"
 echo ""
 fi

@@ -7,6 +7,7 @@ import torch.distributed as dist
 import torch.nn as nn
 from datasets import load_dataset
 from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_PROJECT_ROOT))
@@ -60,25 +61,41 @@ if __name__ == "__main__":
     dist.barrier()
     # Model Setup
     model_type = cfg["nn"].get("model_type", "autoencoder")
+    learning_rate = cfg["nn"].get("learning_rate", 0.001)
+
     if model_type == "autoencoder":
-        model = NetworkAutoencoder(input_dim=input_dim).to(device)
+        # Pull architecture params from config
+        hidden_dims = cfg["nn"]["autoencoder"].get("encoder_hidden_dims", [16, 8])
+        latent_dim = cfg["nn"]["autoencoder"].get("latent_dim", 4)
+        
+        model = NetworkAutoencoder(
+            input_dim=input_dim, 
+            hidden_dims=hidden_dims, 
+            latent_dim=latent_dim
+        ).to(device)
     else:
         raise ValueError(f"Unknown model type: {model_type}")
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    # Using 'none' reduction to calculate per-record loss during inference
-    criterion = nn.MSELoss(reduction='none') 
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    criterion = nn.MSELoss(reduction='none')
+    
+    # Setup TensorBoard Writer (Only on Rank 0 so we don't duplicate logs)
+    writer = None
+    if rank == 0:
+        writer = SummaryWriter(log_dir="outputs/runs/autoencoder_experiment_1")
 
     # --- Phase 1: Training ---
     epochs = cfg["nn"].get("epochs", 5)
     pprint(f"Starting Phase 1: Training {model_type.upper()} for {epochs} epochs...")
     
     for epoch in range(epochs):
-        avg_train_loss = train_epoch(model, dataloader, optimizer, criterion, device)
+        avg_train_loss = train_epoch(model, dataloader, optimizer, criterion, device, epoch, writer, rank)
         pprint(f"Epoch [{epoch+1}/{epochs}] - Loss: {avg_train_loss:.6f}")
 
     # --- Phase 2: Static Inference & Flagging ---
     pprint("Starting Phase 2: Static Inference and Anomaly Flagging...")
-    all_scores, malicious_indices = run_inference_and_flag(model, dataloader, criterion, device, rank)
+    all_scores, malicious_indices = run_inference_and_flag(model, dataloader, criterion, device, rank, writer)
 
+    if writer:
+        writer.close()
     dist.destroy_process_group()
