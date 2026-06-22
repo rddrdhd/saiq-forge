@@ -4,9 +4,9 @@
 #SBATCH --partition=debug
 #SBATCH --exclusive
 #SBATCH --time=00:00:10
-#SBATCH --output=/path/to/your_log.log   # TODO update
+#SBATCH --output=/path/to/your_log.log  # TODO update
 
-WORKDIR=/path/to/your/saiq-forge    # TODO update
+WORKDIR=/path/to/your/saiq-forge        # TODO update
 SIF=$WORKDIR/saiq-forge.sif
 
 singularity exec \

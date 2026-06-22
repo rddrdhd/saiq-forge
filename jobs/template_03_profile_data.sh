@@ -1,12 +1,12 @@
 #!/bin/bash -l
 #SBATCH --job-name=saiq_profile
-#SBATCH --account=project_XXXXX                   
-#SBATCH --partition=debug                                 # CPU
+#SBATCH --account=project_XXXXX             # TODO update
+#SBATCH --partition=debug   # CPU
 #SBATCH --exclusive
 #SBATCH --nodes=1
 #SBATCH --time=00:15:00                                  
-#SBATCH --output=~/profile_%j.out # TODO update
-#SBATCH --error=~/profile_%j.err # TODO update
+#SBATCH --output=~/profile_%j.out           # TODO update
+#SBATCH --error=~/profile_%j.err            # TODO update
 
 # ── Load data from config  ─────────────────────────────────────────────────────────────────────
 CONFIG_PATH="config/default.yml"
