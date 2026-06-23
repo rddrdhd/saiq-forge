@@ -1,0 +1,35 @@
+============================================================
+  saiq-forge — main
+============================================================
+Job ID    : 19459469
+Node      : nid007955
+CPUs      : 
+Date      : Tue Jun 23 02:29:16 PM EEST 2026
+Workdir   : /scratch/project_465002797/rkovaleo/saiq-forge
+Datadir   : 
+Log dir   : /scratch/project_465002797/rkovaleo/saiq-forge/outputs/logs/20260623_19459469
+============================================================
+
+[Main]: Running SAIQ-forge with data from data/CIC-IDS-2017_processed/Friday-WorkingHours.parquet and data/generated-outputs/baseline_stats_generated_data_cicd-friday.json
+
+--- Tensor Sanity Check ---
+Batch Shape: [256, 12]
+Global Min:  -0.1605
+Global Max:  23.9970
+Global Mean: 3.0397
+---------------------------
+
+[Main]: Starting Phase 1: Training AUTOENCODER for 5 epochs...
+[Main]: Epoch [1/5] - Loss: 1.403745
+[Main]: Epoch [2/5] - Loss: 0.019757
+[Main]: Epoch [3/5] - Loss: 0.011260
+[Main]: Epoch [4/5] - Loss: 0.009121
+[Main]: Epoch [5/5] - Loss: 0.006621
+[Main]: Starting Phase 2: Static Inference and Anomaly Flagging...
+
+--- Global Inference Stats ---
+Total Records Processed: 396995
+Global Mean Loss: 0.005848 | Global StdDev: 0.020462
+Global Anomaly Threshold: 0.067233
+Found 3540 potential anomalies globally.
+Highest single anomaly score globally: 4.530081

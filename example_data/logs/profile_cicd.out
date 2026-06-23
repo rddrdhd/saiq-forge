@@ -1,0 +1,33 @@
+============================================================
+  saiq-forge — profiling data
+============================================================
+Job ID    : 19458990
+Node      : nid002500
+CPUs      : 
+Date      : Tue Jun 23 02:27:10 PM EEST 2026
+Workdir   : /scratch/project_465002797/rkovaleo/saiq-forge
+Datadir   : 
+============================================================
+
+Profiling data from data/CIC-IDS-2017_processed/Friday-WorkingHours.parquet using GeoIP database data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ISP-DOMAIN.parquet
+Opening network data parquet file and parsing schema...
+Computing overall file traffic summaries...
+Enriching network telemetry with vectorized GeoIP tables...
+Profiling numerical distributions via robust quantiles...
+Computing behavioral asymmetry metrics...
+Calculating system-wide feature entropies...
+Profiling network structural connection boundaries...
+Mapping context rules and structural rarities...
+Generating profile diagnostic visualization graphics...
+Writing comprehensive metrics to data/generated-outputs/baseline_stats_generated_data_cicd-friday.json...
+
+==================================================
+📊 DATASET TRAFFIC PROFILE COMPLETED SUCCESSFULY
+==================================================
+Total Flows Audited  : 396,995
+Dataset Timespan     : 28,970.66 seconds
+Total Volumetric Payload : 8,103.30 MB
+Top Country Location : - (311,059 flows)
+Diagnostic Plots Output Folder: ./data/generated-outputs/reports_generated_data_cicd-friday/
+==================================================
+
