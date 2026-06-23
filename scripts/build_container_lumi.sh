@@ -31,3 +31,8 @@ ls -lh saiq-forge.sif    # ~1 GB
 #   print('dask:  ', dask.__version__)
 #   print('All imports OK')
 #   "
+
+# singularity exec --bind $PWD:/workspace --bind /scratch/project_465002797/pathfinder/data/:/data --pwd /workspace saiq-forge.sif python3 scripts/pcap_to_parquet.py
+# singularity exec --bind $PWD:/workspace --bind /scratch/project_465002797/pathfinder/data/ --pwd /workspace saiq-forge.sif python3 scripts/pcap_to_parquet.py
+
+# singularity shell --bind $PWD:/workspace saiq-forge.sif

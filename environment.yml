@@ -12,6 +12,7 @@ dependencies:
   - numpy=1.26
   - scikit-learn=1.5
   - scipy=1.13
+  - scapy=2.7
   - matplotlib=3.9
   - seaborn=0.13
   - rich=13.7
