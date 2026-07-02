@@ -18,6 +18,9 @@ Start with generating baseline for your data (`sbatch jobs/my_03_profile_data.sh
 ## Data
 Apart from our internal datasets *24-01-classification*, *classification_2* & *generated_data_randomized*, let's swork with benchmarking data too. Let's start with [*CICIDS2017*](https://www.unb.ca/cic/datasets/ids-2017.html), specifically with *Friday-WorkingHours.pcap*.
 But to work the same, we want them in the same format as our data. Instead of treating every packet as a separate line, we group packets sharing the same 5-tuple (Src IP, Dst IP, Src Port, Dst Port, Protocol) into a single bidirectional, and also in parquet instead of pcap:
-- `srun --account=project_46xxxxxxx  --partition=small-g --nodes=1 --ntasks=1 --cpus-per-task=16      --time=01:00:00 --pty bash` # let's not run this on login node lol
+- `srun --account=project_46xxxxxxx --partition=small-g --nodes=1 --ntasks=1 --cpus-per-task=16 --time=01:00:00 --pty bash` # let's not run this on login node lol
 - `./scripts/build_container_lumi.sh` # build container if not built already
 - `singularity exec --bind "/pfs,/scratch,/project" --pwd $PWD saiq-forge.sif python3 scripts/fast_pcap_to_parquet.py`
+
+## WIP
+Adding VLQ access. First step is to get the Lexis token. To get it, run `./scripts/run_get_lexis_token.sh`. Then, in the terminal, you'll see an URL to click and sign up to your account.
