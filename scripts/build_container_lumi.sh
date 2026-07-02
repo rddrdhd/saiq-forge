@@ -11,7 +11,7 @@ cotainr --version
 # --accept-licenses avoids the interactive Miniforge license prompt
 cotainr build saiq-forge.sif \
   --system=lumi-c \
-  --conda-env=environment.yml \
+  --conda-env=environment-container.yml \
   --accept-licenses
 
 # Confirm it was created
