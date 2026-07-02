@@ -8,6 +8,7 @@ import torch.nn as nn
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
+from datetime import datetime
 
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_PROJECT_ROOT))
@@ -82,7 +83,9 @@ if __name__ == "__main__":
     # Setup TensorBoard Writer (Only on Rank 0 so we don't duplicate logs)
     writer = None
     if rank == 0:
-        writer = SummaryWriter(log_dir="outputs/runs/autoencoder_experiment_1")
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        run_dir = f"{cfg['output'].get('dir_tensorboard','outputs/runs/default')}/run_{timestamp}"
+        writer = SummaryWriter(log_dir=run_dir)
 
     # --- Phase 1: Training ---
     epochs = cfg["nn"].get("epochs", 5)

@@ -6,6 +6,8 @@ input:
   file_geo: "data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ISP-DOMAIN.parquet"
 output:
   file_baseline: "data/baseline_stats_for_my_parquet_file.json" # for per-file data profiling
+  dir_reports: "data/generated-outputs/reports_from_my_parquet_file"
+  dir_tensorboard: "outputs/runs/my_parquet_specific_run/"
 nn:
   type: "autoencoder"
   batch_size: 256
