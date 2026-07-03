@@ -1,0 +1,31 @@
+============================================================
+  saiq-forge — VLQ example
+============================================================
+Job ID    : 19704325
+Node      : nid005025
+CPUs      : 
+Date      : Fri Jul  3 01:29:40 PM EEST 2026
+Workdir   : /path/to/saiq-forge
+Datadir   : 
+Log dir   : /path/to/saiq-forge/outputs/logs/20260703_19704325
+============================================================
+
+Trying to reach VLQ with project <project-id> and resource <resource-id>
+Successfully authenticated with VLQ via saved token!
+
+Creating quantum circuit...
+-> Saved original circuit layout to 'circuit_original.png'
+
+Transpiling circuit for the VLQ backend...
+-> Saved transpiled circuit layout to 'circuit_transpiled.png'
+
+Submitting job to VLQ machine (5000 shots)...
+Waiting for backend execution results...
+
+Raw counts from execution:
+{'00000': 2087, '10000': 106, '11111': 1252, '11101': 73, '10100': 14, '11011': 320, '01100': 6, '00010': 161, '01110': 84, '01010': 40, '01111': 112, '00001': 24, '11001': 21, '11110': 130, '11010': 38, '01000': 90, '10011': 19, '00100': 168, '10111': 70, '11100': 9, '10001': 3, '00111': 8, '00110': 87, '10110': 15, '11000': 4, '10010': 11, '01011': 28, '00011': 4, '00101': 1, '10101': 6, '01001': 4, '01101': 5}
+
+Generating final histogram...
+-> Saved execution histogram to 'results_histogram.png'
+
+[SUCCESS] VLQ computation finished completely!
