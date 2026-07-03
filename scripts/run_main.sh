@@ -55,6 +55,6 @@ fi
 
 # ── Run script ───────────────────────────────────────────────────────────────
 cd $PATH_WORKDIR
-python3 core/main.py -v -s
+python3 main.py -v -s
 EXIT_CODE=$?
 exit $EXIT_CODE

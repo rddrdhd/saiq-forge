@@ -29,3 +29,6 @@ nn:
     use_robust_dst_bytes: true
     use_rare_src_ip: true
     use_protocol_encoding: true
+q:
+  project_id: YOUR-PROJECT-ID-OPEN-123
+  resource_id: YOUR-RESOURCE-ID-VLQ-CZ
