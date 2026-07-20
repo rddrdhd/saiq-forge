@@ -1,4 +1,8 @@
 # CHANGELOG
+## v0.5 - 20260703
+Computing GHZ example on VLQ from LUMI cluster
+## v0.4 - 20260702
+Added VLQ access
 ## v0.3 - 20260530
 Added data profiling to analyze the static data first, so we can add some additional attributes to the records for the anomaly detection
 ## v0.2 - 20260521
