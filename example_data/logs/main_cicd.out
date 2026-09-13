@@ -1,13 +1,13 @@
 ============================================================
   saiq-forge — main
 ============================================================
-Job ID    : 19459469
-Node      : nid007955
+Job ID    : xxx
+Node      : nidxxx
 CPUs      : 
 Date      : Tue Jun 23 02:29:16 PM EEST 2026
-Workdir   : /scratch/project_465002797/rkovaleo/saiq-forge
+Workdir   : /scratch/project_xxxx/xxxx/saiq-forge
 Datadir   : 
-Log dir   : /scratch/project_465002797/rkovaleo/saiq-forge/outputs/logs/20260623_19459469
+Log dir   : /scratch/project_xxxx/xxxx/saiq-forge/outputs/logs/20260623_xxxx
 ============================================================
 
 [Main]: Running SAIQ-forge with data from data/CIC-IDS-2017_processed/Friday-WorkingHours.parquet and data/generated-outputs/baseline_stats_generated_data_cicd-friday.json

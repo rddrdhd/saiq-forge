@@ -1,13 +1,13 @@
 ============================================================
   saiq-forge — VLQ example
 ============================================================
-Job ID    : 19704325
-Node      : nid005025
+Job ID    : xxxx
+Node      : nidxxxx
 CPUs      : 
 Date      : Fri Jul  3 01:29:40 PM EEST 2026
 Workdir   : /path/to/saiq-forge
 Datadir   : 
-Log dir   : /path/to/saiq-forge/outputs/logs/20260703_19704325
+Log dir   : /path/to/saiq-forge/outputs/logs/20260703_xxxx
 ============================================================
 
 Trying to reach VLQ with project <project-id> and resource <resource-id>

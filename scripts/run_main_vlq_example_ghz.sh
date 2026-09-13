@@ -59,7 +59,7 @@ cd $PATH_WORKDIR
 VENV_DIR="my_vlq_venv"
 source "$VENV_DIR/bin/activate"
 
-python3 main_vlq_example.py \
+python3 main_vlq_example_ghz.py \
     --path_logdir="${PATH_OUTPUT}"
 
 EXIT_CODE=$?
