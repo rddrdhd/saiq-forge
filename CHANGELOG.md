@@ -1,4 +1,11 @@
 # CHANGELOG
+## v0.6 - 20260913
+Repo cleanup for secret hygiene (stray account numbers, editable Overleaf link removed from
+README) and a bit of restructuring: explicit template/`my_` convention documented in README,
+small correctness fixes (`nn.type` config key, `main_vlq_example_ghz.py` argparse), and a new
+GHZ minimal example running on LUMI's own GPUs via the official CSC Qiskit-Aer-GPU container
+(no VLQ hardware/token needed) — `main_vlq_example_ghz_simulator.py` /
+`jobs/template_05_vlq_example_ghz_simulator.sh`.
 ## v0.5 - 20260703
 Computing GHZ example on VLQ from LUMI cluster
 ## v0.4 - 20260702

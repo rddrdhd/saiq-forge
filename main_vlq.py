@@ -1,3 +1,9 @@
+# NOTE: currently identical to main.py. This is the placeholder for the Phase 1
+# integration step described in the thesis (Section 3.6.3 "Current status"):
+# joining the LUMI classical/autoencoder path and the VLQ execution path into one
+# run, so a matched classical/quantum comparison can be produced. Until that
+# integration lands, run main.py for classical training and
+# main_vlq_example_ghz.py for the VLQ connectivity check separately.
 import json
 import sys
 import os

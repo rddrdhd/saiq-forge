@@ -14,7 +14,7 @@ from qiskit.visualization import plot_histogram
 
 parser = argparse.ArgumentParser(description="VLQ Example Script")
 parser.add_argument("--path_logdir", type=str, default=".", help="Path to output directory for logs and plots")
-args = parser.parse_parser_args() if hasattr(parser, 'parse_parser_args') else parser.parse_args()
+args = parser.parse_args()
 output_dir = Path(args.path_logdir)
 output_dir.mkdir(parents=True, exist_ok=True)
 

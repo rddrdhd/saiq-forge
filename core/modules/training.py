@@ -40,7 +40,7 @@ def run_training_pipeline(cfg: dict, dataloader: torch.utils.data.DataLoader, in
 
     # Load params from config
     nn_cfg = cfg.get("nn", {})
-    model_type = nn_cfg.get("model_type", "autoencoder")
+    model_type = nn_cfg.get("type", "autoencoder")
     learning_rate = nn_cfg.get("learning_rate", 0.001)
     epochs = nn_cfg.get("epochs", 5)
 
