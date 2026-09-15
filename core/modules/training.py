@@ -59,7 +59,7 @@ def run_training_pipeline(cfg: dict, dataloader: torch.utils.data.DataLoader, in
     # --- Phase 1: Training ---
     pprint(f"Starting Phase 1: Training {model_type.upper()} for {epochs} epochs...")
     for epoch in range(epochs):
-        avg_train_loss = train_epoch(model, dataloader, optimizer, criterion, device, epoch, writer, rank)
+        avg_train_loss, _epoch_stats = train_epoch(model, dataloader, optimizer, criterion, device, epoch, writer, rank)
         pprint(f"Epoch [{epoch+1}/{epochs}] - Loss: {avg_train_loss:.6f}")
 
     # --- Phase 2: Static Inference & Flagging ---

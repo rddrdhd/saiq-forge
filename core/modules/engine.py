@@ -1,46 +1,71 @@
+import time
 import torch
 import torch.distributed as dist
 
 def train_epoch(model, dataloader, optimizer, criterion, device, epoch, writer=None, rank=0):
     model.train()
     total_loss = 0.0
-    
+    local_sample_count = 0
+    t_epoch_start = time.perf_counter()
+
     for batch_idx, batch in enumerate(dataloader):
         features = batch["FEATURES"].to(device).float()
         optimizer.zero_grad()
         reconstructed = model(features)
-        
+
         loss = criterion(reconstructed, features).mean()
         loss.backward()
         optimizer.step()
-        
+
         total_loss += loss.item()
-        
+        local_sample_count += features.shape[0]
+
         # Log batch-level loss to TensorBoard
         if writer and rank == 0:
             global_step = epoch * len(dataloader) + batch_idx
             writer.add_scalar('Training/Batch_Loss', loss.item(), global_step)
-            
+
     avg_loss = total_loss / len(dataloader)
-    
+    epoch_wall_seconds = time.perf_counter() - t_epoch_start
+
+    # --- GLOBAL THROUGHPUT (tqe.tex Sec. 5.1 scaling numbers) ---
+    # Sum samples across ranks, take the slowest rank's wall time as the
+    # effective epoch duration (there's no DDP gradient sync here to force
+    # ranks to lock-step, so they can drift).
+    local_count_t = torch.tensor([local_sample_count], dtype=torch.float64, device=device)
+    local_time_t = torch.tensor([epoch_wall_seconds], dtype=torch.float64, device=device)
+    dist.all_reduce(local_count_t, op=dist.ReduceOp.SUM)
+    dist.all_reduce(local_time_t, op=dist.ReduceOp.MAX)
+    global_samples = local_count_t.item()
+    max_epoch_seconds = local_time_t.item()
+    throughput = global_samples / max_epoch_seconds if max_epoch_seconds > 0 else 0.0
+
     # Log epoch-level loss
     if writer and rank == 0:
         writer.add_scalar('Training/Epoch_Loss', avg_loss, epoch)
-        
-    return avg_loss
+        writer.add_scalar('Training/Epoch_Seconds', max_epoch_seconds, epoch)
+        writer.add_scalar('Training/Throughput_Samples_Per_Sec', throughput, epoch)
+    if rank == 0:
+        print(f"  epoch wall time (slowest rank): {max_epoch_seconds:.2f}s | "
+              f"global throughput: {throughput:.1f} samples/sec ({int(global_samples)} samples total)")
+
+    return avg_loss, {"epoch_seconds": max_epoch_seconds, "samples_per_sec": throughput,
+                       "global_samples": global_samples}
 
 def run_inference_and_flag(model, dataloader, criterion, device, rank, writer=None):
     """Runs data through the trained model, calculates global threshold, and flags anomalies."""
     model.eval()
     all_losses = []
-    
+    t_inference_start = time.perf_counter()
+
     with torch.no_grad():
         for batch in dataloader:
             features = batch["FEATURES"].to(device).float()
             reconstructed = model(features)
             per_record_loss = criterion(reconstructed, features).mean(dim=1)
             all_losses.append(per_record_loss)
-            
+    local_inference_seconds = time.perf_counter() - t_inference_start
+
     # Combine local losses
     all_losses = torch.cat(all_losses) if all_losses else torch.tensor([], device=device)
     # --- GLOBAL SYNCHRONIZATION ---

@@ -1,4 +1,6 @@
 import argparse
+import json
+import time
 from pathlib import Path
 import os
 import sys; sys.path.append("..")
@@ -18,6 +20,14 @@ args = parser.parse_args()
 output_dir = Path(args.path_logdir)
 output_dir.mkdir(parents=True, exist_ok=True)
 
+# Timing breakdown for the LUMI-to-VLQ round trip (tqe.tex Sec. 5.2 "Quantum
+# Access Characterization"). queue_plus_execution conflates actual device
+# queueing with execution time - the QaaS client API surface for polling job
+# status separately hasn't been verified, so this is an honest single number
+# rather than a guessed split.
+timings = {}
+t_script_start = time.perf_counter()
+
 cfg = load_config("config/default.yml")
     
 PROJECT = cfg["q"]["project_id"] 
@@ -36,6 +46,7 @@ if not os.path.exists(token_path):
 with open(token_path, "r") as f:
     token = f.read().strip()
 
+t_auth_start = time.perf_counter()
 try:
     provider = QProvider(token, PROJECT)
     backend = provider.get_backend(RESOURCE)
@@ -43,6 +54,7 @@ try:
 except Exception as e:
     print(f"Authentication failed. Your token might have expired (5-day limit). Run '.scripts/run_get_lexis_token.sh' again. Error: {e}", file=sys.stderr)
     sys.exit(1)
+timings["auth_seconds"] = time.perf_counter() - t_auth_start
 
 
 # ==========================================
@@ -68,7 +80,9 @@ print("-> Saved original circuit layout to 'circuit_original.png'")
 # 3. TRANSPILATION
 # ==========================================
 print("\nTranspiling circuit for the VLQ backend...")
+t_transpile_start = time.perf_counter()
 qc_transpiled = transpile_to_IQM(qc, backend)
+timings["transpile_seconds"] = time.perf_counter() - t_transpile_start
 
 # Save the transpiled circuit drawing as an image
 fig_transpiled = qc_transpiled.draw(output="mpl")
@@ -81,10 +95,15 @@ print("-> Saved transpiled circuit layout to 'circuit_transpiled.png'")
 # ==========================================
 SHOTS = 5000
 print(f"\nSubmitting job to VLQ machine ({SHOTS} shots)...")
+t_submit_start = time.perf_counter()
 job = backend.run(qc_transpiled, shots=SHOTS)
+timings["submit_call_seconds"] = time.perf_counter() - t_submit_start
 
 print("Waiting for backend execution results...")
+t_wait_start = time.perf_counter()
 results = job.result().get_counts()
+timings["queue_plus_execution_seconds"] = time.perf_counter() - t_wait_start
+timings["total_round_trip_seconds"] = time.perf_counter() - t_script_start
 
 # Print raw dictionary to the Slurm log file
 print("\nRaw counts from execution:")
@@ -102,6 +121,13 @@ print("\nGenerating final histogram...")
 fig_hist = plot_histogram(result_clean)
 fig_hist.savefig(f'{output_dir}/results_histogram.png', bbox_inches='tight')
 print("-> Saved execution histogram to 'results_histogram.png'")
+
+print("\nLUMI-to-VLQ round trip timing breakdown (seconds):")
+for k, v in timings.items():
+    print(f"  {k}: {v:.3f}")
+with open(output_dir / "vlq_timing.json", "w") as f:
+    json.dump(timings, f, indent=2)
+print(f"-> Saved timing breakdown to '{output_dir}/vlq_timing.json'")
 
 print("\n[SUCCESS] VLQ computation finished completely!")
 
