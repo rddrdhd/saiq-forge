@@ -1,0 +1,25 @@
+# Copy to config.yaml (gitignored) and fill in real values before running.
+project:
+  workdir: "/path/to/saiq-forge"     # TODO update — LUMI: /scratch/<project>/<user>/saiq-forge
+  datadir: "/path/to/data"           # TODO update
+  logsdir: "/path/to/outputs/logs"   # TODO update
+
+dataset:
+  name: "dataset_b"          # dataset_a | dataset_b | dataset_c (benchmark datasets: next slice)
+  path: "/path/to/data/dataset_b.csv"
+
+features:
+  modalities: ["T", "B"]      # subset of implemented extractors; unknown keys are rejected
+  window:
+    width_sec: 10               # w — Phase 1 locked default
+    overlap: 0.5                  # delta — step = width_sec * (1 - overlap)
+
+detectors:
+  active:
+    - class: statistical
+      method: zscore              # zscore | iqr
+      threshold: 3.0
+      tier: cpu_statistical
+
+execution:
+  backend: local               # only backend implemented this slice
