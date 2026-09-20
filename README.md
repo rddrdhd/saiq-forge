@@ -14,15 +14,26 @@ duplicate that.
 
 Implemented so far: Temporal (`T`) and Behavioral (`B`) feature extractors,
 a statistical detector (Z-score/IQR) as the CPU-only first pipeline tier,
-loading for the real flow-record captures (datasets A/B/C). Not yet built:
-Topological/Geographical extractors, classical-ML/deep-learning/graph/
-quantum detectors, the CICIDS2017/UNSW-NB15 benchmark loader, HPC scale-out.
+loading for the real flow-record captures (datasets A/B/C). A dense
+PyTorch autoencoder detector (`deep_learning`/`autoencoder_classical`,
+`saiq_forge/detectors/autoencoder.py`) and a CICIDS2017 pilot-dataset
+loader (`saiq_forge/io/cicids2017.py`, reusing the already-labeled
+`qml_pilot_cicids2017.parquet` from the prior QML pilot) also exist, as
+building blocks for an exploratory classical-vs-quantum-vs-VLQ-hardware
+autoencoder comparison — not yet wired into a CLI command, that lands with
+the benchmark-comparison runner. Not yet built: Topological/Geographical
+extractors, classical-ML/graph/quantum detectors, the UNSW-NB15 loader,
+HPC scale-out.
 
 ## Requirements
 
-Python 3.9+, `pyyaml`, `pytest` to run the tests. No GPU/ROCm dependency is
-needed for anything currently implemented (see "Slurm" below on why a GPU
-template exists anyway).
+Python 3.9+, `pyyaml`, `pytest`, `torch`, `pandas`, `pyarrow` (the last
+three back the autoencoder detector and CICIDS2017 loader). `torch` here
+is CPU-only, fine for local iteration and the unit tests; real GPU
+training on LUMI uses the `pytorch/2.4` module instead (ROCm build), not
+this venv's CPU wheel — see the autoencoder job template once it lands.
+No quantum (`qiskit`) dependency yet — that comes with the simulator
+detector.
 
 ## Environment setup
 

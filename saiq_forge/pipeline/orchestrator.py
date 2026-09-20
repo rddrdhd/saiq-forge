@@ -30,7 +30,8 @@ def run(config_path) -> list:
     detectors = []
     for detector_cfg in config["detectors"]["active"]:
         detector_cls = detector_registry.get_detector(detector_cfg["class"], detector_cfg["method"])
-        detectors.append(detector_cls(threshold=detector_cfg["threshold"]))
+        kwargs = {k: v for k, v in detector_cfg.items() if k not in ("class", "method")}
+        detectors.append(detector_cls(**kwargs))
 
     scores_by_tier = Tiering().run(feature_vectors, detectors)
     final_scores = scores_by_tier[-1] if scores_by_tier else [0.0] * len(windows)
