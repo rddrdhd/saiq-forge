@@ -4,5 +4,27 @@
 # link, or a slug collision (lint-mechanical.py --staged). Both are deterministic, no LLM.
 # Override: git commit --no-verify.
 ROOT="$(git rev-parse --show-toplevel)"
-uv run "$ROOT/bin/check-contradictions.py" || exit 1
-uv run "$ROOT/bin/lint-mechanical.py" --staged || exit 1
+
+# Prefer `uv run` (manages its own interpreter). Fall back to the newest available
+# python3.x otherwise, since the system default `python3` may predate 3.7's
+# date.fromisoformat (true on at least one LUMI login node as of 2026-09) and uv
+# itself may not be installed at all.
+if command -v uv >/dev/null 2>&1; then
+    RUN="uv run"
+else
+    PY=""
+    for cand in python3.13 python3.12 python3.11 python3.10 python3.9 python3.8 python3.7 python3; do
+        if command -v "$cand" >/dev/null 2>&1; then
+            PY="$cand"
+            break
+        fi
+    done
+    if [ -z "$PY" ]; then
+        echo "pre-commit: no python3 interpreter found and uv is not installed — cannot run wiki gates" >&2
+        exit 1
+    fi
+    RUN="$PY"
+fi
+
+$RUN "$ROOT/bin/check-contradictions.py" || exit 1
+$RUN "$ROOT/bin/lint-mechanical.py" --staged || exit 1
