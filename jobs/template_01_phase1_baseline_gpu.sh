@@ -13,7 +13,8 @@ set -euo pipefail
 # Z-score/IQR detector has no compute-bound reason to need a GPU; this
 # template exists only so the job can run on a GPU-partition allocation
 # when that's what's actually available, not because the workload benefits.
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="${SLURM_SUBMIT_DIR:-$PWD}"  # sbatch runs a spooled copy of this script, so
+                                        # ${BASH_SOURCE[0]} would point at /var/spool/...
 module load cray-python
 source "$REPO_ROOT/.venv/bin/activate"
 

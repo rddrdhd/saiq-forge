@@ -11,7 +11,8 @@ set -euo pipefail
 # Statistical tier only (Phase 1) — CPU-bound, no GPU benefit. `small` is
 # billed per-core, not per-node, which matters since this doesn't need a
 # whole node's worth of cores.
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="${SLURM_SUBMIT_DIR:-$PWD}"  # sbatch runs a spooled copy of this script, so
+                                        # ${BASH_SOURCE[0]} would point at /var/spool/...
 module load cray-python
 source "$REPO_ROOT/.venv/bin/activate"
 

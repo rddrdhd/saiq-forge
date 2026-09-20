@@ -138,5 +138,11 @@ job start (`sbatch jobs/my_01_phase1_baseline_cpu.sh config/config.yaml`,
 or edit the `CONFIG=` default at the top of the script) — no path is
 hardcoded in the script itself.
 
+**Submit from the repo root** (`cd` there first, then `sbatch jobs/...`).
+The scripts locate the repo via `$SLURM_SUBMIT_DIR` (the directory `sbatch`
+was run from) to find `.venv/` and resolve the default `config/config.yaml`
+path — Slurm runs a copy of the script from `/var/spool/slurmd/...`, so the
+script's own file location can't be used for this.
+
 I won't run `sbatch` for you (state-changing Slurm command) — copy the
 template, fill in your account, and submit it yourself.
