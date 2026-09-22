@@ -2,6 +2,11 @@
 https://github.com/rddrdhd/saiq-forge
 
 Statistical/AI/Quantum methods for network anomaly detection in HPC environment.
+Including minimal example to run GHZ on VLQ. To run it, you need to:
+  - create config/default.yml from config/default_template.yml
+  - create jobs/04_vlq_example_ghz.sh from jobs/template_04_vlq_example_ghz.sh
+  - and submit the job by calling sbatch jobs/04_vlq_example_ghz.sh
+
 
 In development as a part of my [PhD thesis](https://www.overleaf.com/project/69b27d1754e1e94ecea885e8).
 
